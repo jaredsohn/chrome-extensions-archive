@@ -1,8 +1,6 @@
 
 # Chrome Extensions Archive
 
-[![Join the chat at https://gitter.im/mdamien/chrome-extensions-archive](https://badges.gitter.im/mdamien/chrome-extensions-archive.svg)](https://gitter.im/mdamien/chrome-extensions-archive?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 The goal is to provide a complete archive of the chrome web store with version
 history.
 
@@ -19,21 +17,37 @@ Files are named as `.zip` but they are the exact same `.crx` stored on the store
 
 ## Running the scripts
 
-Install dependencies: `pip3 install -r req.txt` 
+Install dependencies: `pip3 install -r req.txt`
+
+Create some folders and initialize some files:
+
+```
+mkdir data
+mkdir crawled
+mkdir crawled/sitemap
+mkdir crawled/pages
+mkdir crawled/crx
+mkdir crawled/tmp
+mkdir ../site
+mkdir ../site/chrome-extensions-archive
+mkdir ../site/chrome-extensions-archive/ext
+echo "{}" > data/not_in_sitemap.json
+```
 
 Crawling:
 
-- `crawl_sitemap.py`: gets you the list of all the extensions in `sitemap.json`
-- `crawl_crx.py`: use `sitemap.json` to download the crx
+- `crawl_sitemap.py`: gets you the list of all the extensions in `data/sitemap.json`
+- `crawl_crx.py`: use `data/sitemap.json` to download the crx
 
 Site & stats:
 
-- `scan_pages_history_to_big_list.py`: makes `PAGES.json` by scanning the pages
+- `scan_pages_history_to_big_list.py`: makes `data/PAGES.json` by scanning the pages
 you crawled
-- `crx_stats.py`: makes `crx_stats.json` (what's currently stored)
-- `make_website.py`: use `crx_stats.json` + `PAGES.json` to generate the site
+- `crx_stats.py`: makes `data/crx_stats.json` (what's currently stored)
+- `make_site.py`: use `data/crx_stats.json` + `data/PAGES.json` to generate the site
+- `make_json_site.py`: `data/crx_stats.json` + `data/PAGES.json` to generate JSON
 
-Then I serve the files direcly with nginx.
+Then I serve the files directly with nginx (see nginx.conf file for example)
 
 PS: scripts are python3 only
 
@@ -48,4 +62,3 @@ I have a few things in mind for the future:
 Don't hesitate to reach out (here on issues, damien@dam.io or @dam_io on twitter)
 
 To propose changes, just do a PR. You can also discuss about things on [gitter](https://gitter.im/mdamien/chrome-extensions-archive).
-
